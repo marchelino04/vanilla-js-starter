@@ -26,7 +26,7 @@ async function crearTareasIniciales() {
 // var misTareas = await ObtenerTareas();
 // console.log(" Mis tareas ", misTareas)
 
-//var resultadoMarcarTarea = await marcarTarea(true, "9864e7a6-8e95-403d-ad15-6ec8acbe305b")
+// var resultadoMarcarTarea = await marcarTarea(true, "9864e7a6-8e95-403d-ad15-6ec8acbe305b")
 
 // console.log(resultadoMarcarTarea)
 
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   addButton.addEventListener("click", addTaskEvent);
   taskInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-      addTask();
+      addTask(taskInput.value);
     }
   });
 
