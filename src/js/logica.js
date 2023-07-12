@@ -4,12 +4,12 @@ const taskInput = document.getElementById("tarea");
 
 var listaTareasGlobal = [];
 
-async function crearTareasIniciales(){
+async function crearTareasIniciales() {
 
   listaTareasGlobal = await ObtenerTareas()
   console.log("Mi lista al iniciar la aplicación: ", listaTareasGlobal);
-  
-  for (let indiceTarea = 0; indiceTarea < listaTareasGlobal.length; indiceTarea++){
+
+  for (let indiceTarea = 0; indiceTarea < listaTareasGlobal.length; indiceTarea++) {
     const tarea = listaTareasGlobal[indiceTarea];
     const textoTarea = tarea.task;
     //crear tarea es la función de cada uno
@@ -43,18 +43,18 @@ const noTasksMessage = document.getElementById("noTasksMessage");
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   crearTareasIniciales();
   let contadorTareasRealizadas = 0;
   console.log("Ya cargué la pagina");
   addButton.addEventListener("click", addTaskEvent);
-  taskInput.addEventListener("keydown", function(event) {
+  taskInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
       addTask();
     }
   });
 
-  taskList.addEventListener("click", function(event) {
+  taskList.addEventListener("click", function (event) {
     if (event.target.classList.contains("delete")) {
       deleteTask(event.target.parentElement);
     } else if (event.target.classList.contains("checkbox")) {
@@ -62,7 +62,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-function addTaskEvent(event){
+  document.getElementById("contador").textContent = contadorTareasRealizadas;
+});
+
+
+
+
+function addTaskEvent(event) {
   event.preventDefault()
 
   const taskText = taskInput.value.trim().toLowerCase();
@@ -80,90 +86,86 @@ function addTaskEvent(event){
       return;
     }
     postTarea(taskText)
-    addTask (taskText)
+    addTask(taskText)
 
   }
 }
 
-  function addTask(taskText) {
+function addTask(taskText) {
 
-    if (taskText !== "") {
-      const existingTasks = Array.from(taskList.getElementsByTagName("label"));
-      const isTaskDuplicate = existingTasks.some(task => task.textContent.toLowerCase() === taskText);
+  if (taskText !== "") {
+    const existingTasks = Array.from(taskList.getElementsByTagName("label"));
+    const isTaskDuplicate = existingTasks.some(task => task.textContent.toLowerCase() === taskText);
 
-      if (isTaskDuplicate) {
-        alert("Wiederholte Aufgabe");
-        return;
-      }
-
-      const listItem = document.createElement("li");
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.classList.add("checkbox");
-
-      const taskLabel = document.createElement("label");
-      taskLabel.textContent = taskInput.value;
-
-      const deleteButton = document.createElement("span");
-      deleteButton.textContent = " || Löschen";
-      deleteButton.classList.add("delete");
-
-      listItem.appendChild(checkbox);
-      listItem.appendChild(taskLabel);
-      listItem.appendChild(deleteButton);
-      taskList.appendChild(listItem);
-
-      taskInput.value = "";
-      taskInput.focus();
-
-      noTasksMessage.style.display = "none";
-    } else {
-      alert("Text eingeben");
+    if (isTaskDuplicate) {
+      alert("Wiederholte Aufgabe");
       return;
     }
 
-    updateNoTasksMessage();
+    const listItem = document.createElement("li");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.classList.add("checkbox");
+
+    const taskLabel = document.createElement("label");
+    taskLabel.textContent = taskText;
+
+    const deleteButton = document.createElement("span");
+    deleteButton.textContent = " || Löschen";
+    deleteButton.classList.add("delete");
+
+    listItem.appendChild(checkbox);
+    listItem.appendChild(taskLabel);
+    listItem.appendChild(deleteButton);
+    taskList.appendChild(listItem);
+
+    taskInput.value = "";
+    taskInput.focus();
+
+    noTasksMessage.style.display = "none";
+  } else {
+    alert("Text eingeben");
+    return;
   }
 
-  function deleteTask(taskItem) {
-    const checkbox = taskItem.querySelector('.checkbox');
-    const isChecked = checkbox.checked;
-  
-    taskItem.remove();
-  
-    if (isChecked) {
-      contadorTareasRealizadas--;
-      document.getElementById("contador").textContent = contadorTareasRealizadas;
-    }
-  
-    updateNoTasksMessage();
-  }
+  updateNoTasksMessage();
+}
 
-  function completeTask(checkbox) {
-    const taskLabel = checkbox.nextElementSibling;
+function deleteTask(taskItem) {
+  const checkbox = taskItem.querySelector('.checkbox');
+  const isChecked = checkbox.checked;
 
-    if (checkbox.checked) {
-      taskLabel.classList.add("completed");
-      contadorTareasRealizadas++;
-    } else {
-      taskLabel.classList.remove("completed");
-      contadorTareasRealizadas--;
-    }
+  taskItem.remove();
 
+  if (isChecked) {
+    contadorTareasRealizadas--;
     document.getElementById("contador").textContent = contadorTareasRealizadas;
   }
 
-  function updateNoTasksMessage() {
-    if (taskList.children.length === 0) {
-      noTasksMessage.style.display = "block";
-    } else {
-      noTasksMessage.style.display = "none";
-    }
+  updateNoTasksMessage();
+}
+
+function completeTask(checkbox) {
+  const taskLabel = checkbox.nextElementSibling;
+
+  if (checkbox.checked) {
+    taskLabel.classList.add("completed");
+    contadorTareasRealizadas++;
+  } else {
+    taskLabel.classList.remove("completed");
+    contadorTareasRealizadas--;
   }
 
   document.getElementById("contador").textContent = contadorTareasRealizadas;
-});
+}
 
+function updateNoTasksMessage() {
+  if (taskList.children.length === 0) {
+    noTasksMessage.style.display = "block";
+  } else {
+    noTasksMessage.style.display = "none";
+  }
+}
 
 
 
