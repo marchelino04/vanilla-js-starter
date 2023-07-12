@@ -1,15 +1,33 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="de">
 <head>
-	<title>Ejemplo básico</title>
-	<meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-do-List</title>
+  <link rel="stylesheet" href="css/estilos.css">
 </head>
-
 <body>
-	<h1>La aplicación esta corriendo!</h1>
+  <div class="container">
+    <h1>Aufgabenliste</h1>
+    <div class="counter">
+      <span id="contador">0</span>
+    </div>
+    <div class="input-container">
+      <input class="barra" type="text" id="tarea" placeholder="Schreiben Sie Ihre Aufgaben">
+      <button id="subir">hinzufügen</button>
+    </div>
+    <ul id="taskList"></ul>
+    <p id="noTasksMessage">Es gibt keine Aufgaben</p>
+  </div>
 
-	<script src="./index.js" type="module"></script>
+  <!-- La página está en el idioma Aleman :) -->
+<footer> 
+  <center>
+  <p>Este segundo Proyecto fue creado por Marcelo Maltés, Grupo 2, semana 4.</p>
+  <p>Este proyecto fue editado en el idioma Alemán.</p>
+  </center>
+</footer>
+
+  <script type="module" src="js/logica.js"></script>
 </body>
-
 </html>
