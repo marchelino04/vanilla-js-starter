@@ -38,9 +38,11 @@
 
 const laURLdeToDoList = "http://localhost:3000/api/task/";
 
-/////GET
+
+/////////// GET //////////////
 
 export async function ObtenerTareas (){
+    
     let promesaTareas = fetch (laURLdeToDoList);
     let resultadoPromesa = await promesaTareas;
     let datosTarea = await resultadoPromesa.json();
@@ -48,7 +50,8 @@ export async function ObtenerTareas (){
 }
 
 
-// POST TAREAS (Guardar tareas)
+//////////// POST TAREAS (Guardar tareas) //////////////////
+
 
 export async function postTarea(tareaParametro){
     let promesaTarea = fetch(laURLdeToDoList, {
@@ -78,35 +81,35 @@ export async function postTarea(tareaParametro){
 }
 
 
-//////CHECAR TAREA (PUT)
+//////CHECAR TAREA (PUT) ///////////////
 
-export async function marcarTarea (checkParametro, idTareaParametro){
-    let promesaTarea = fetch(laURLdeToDoList + idTareaParametro, {
-        method:"PUT",
-        body: JSON.stringify( 
-            {
+// export async function marcarTarea (checkParametro, idTareaParametro){
+//     let promesaTarea = fetch(laURLdeToDoList + idTareaParametro, {
+//         method:"PUT",
+//         body: JSON.stringify( 
+//             {
             
-                "check": checkParametro
-            }
-        ),
-        headers:{
-            "Content-Type": "application/json"
-        }
-    });
+//                 "check": checkParametro
+//             }
+//         ),
+//         headers:{
+//             "Content-Type": "application/json"
+//         }
+//     });
 
-    let resultado = await promesaTarea; 
+//     let resultado = await promesaTarea; 
     
-    if ( resultado.status === 200 && resultado.ok === true ){
+//     if ( resultado.status === 200 && resultado.ok === true ){
         
-        let datosActualizados = await resultado.json();
-        return datosActualizados;
+//         let datosActualizados = await resultado.json();
+//         return datosActualizados;
 
-    }else{
-        console.log("No se logró actualizar");
-    }
-}
+//     }else{
+//         console.log("No se logró actualizar");
+//     }
+// }
 
-// CHECAR TAREA (PUT)
+///////// CHECAR TAREA (PUT) ////////////////
 
 export async function marcarTareas(checkParametro, idTareaParametro){
     let promesaTarea = fetch(laURLdeToDoList + idTareaParametro, {
@@ -133,7 +136,8 @@ export async function marcarTareas(checkParametro, idTareaParametro){
     }
 }
 
-// DELETE TAREAS
+
+/////// DELETE TAREAS//////////////
 
 
 export async function borrarTarea(idTareaAEliminar){
