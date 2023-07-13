@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
   addButton.addEventListener("click", addTaskEvent);
   taskInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-      addTask(taskInput.value);
+      addTaskEvent(event);
     }
   });
 
@@ -80,8 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
 var contadorTareasRealizadas = 0;
 
 async function addTaskEvent(event) {
+  console.log("buscar texto", )
   event.preventDefault()
-
   const taskText = taskInput.value.trim().toLowerCase();
 
   console.log(taskInput.value);
@@ -96,7 +96,7 @@ async function addTaskEvent(event) {
       //alert("Wiederholte Aufgabe");
       return;
     }
-
+console.log("Un texto que identificar")
     var respuestaAgreagar = await postTarea (taskText)
     listaTareasGlobal = [ ... respuestaAgreagar]
     var ultimaTarea = respuestaAgreagar.pop()
@@ -104,7 +104,7 @@ async function addTaskEvent(event) {
     const idTarea = ultimaTarea.id;
     const checkTarea = ultimaTarea.check;
 
-    console.log("Mi lista tareas", listaTareasGlobal)
+    console.log("Mi lista tareas", idTarea)
 
     // postTarea(taskText)
 
@@ -177,6 +177,7 @@ console.log("tareaaa")
 
   updateNoTasksMessage();
 }
+
 
 function completeTask(checkbox) {
   const taskLabel = checkbox.nextElementSibling;

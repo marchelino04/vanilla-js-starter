@@ -42,7 +42,7 @@ const laURLdeToDoList = "http://localhost:3000/api/task/";
 /////////// GET //////////////
 
 export async function ObtenerTareas (){
-    
+
     let promesaTareas = fetch (laURLdeToDoList);
     let resultadoPromesa = await promesaTareas;
     let datosTarea = await resultadoPromesa.json();
@@ -59,7 +59,7 @@ export async function postTarea(tareaParametro){
         body: JSON.stringify( 
             {
                 "task": tareaParametro,
-                "check": "false"
+                "check": false
             }
         ),
         headers:{
