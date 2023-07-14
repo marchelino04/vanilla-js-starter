@@ -153,3 +153,18 @@ export async function borrarTarea(idTareaAEliminar){
         console.log("Algo paso mal")
     }
 }
+
+// GET TAREAS
+
+export async function buscarTareas (textoBuscar){
+
+    let promesaTareas = fetch (laURLdeToDoList);
+    let resultadoPromesa = await promesaTareas;
+    let datosTarea = await resultadoPromesa.json();
+
+    let tareasFiltradas = datosTarea.filter((tarea)=>{
+        return tarea.task.includes(textoBuscar)
+
+    })
+    return tareasFiltradas;
+}

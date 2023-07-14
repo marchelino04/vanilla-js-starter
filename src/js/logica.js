@@ -1,5 +1,7 @@
-import { ObtenerTareas, postTarea, marcarTareas, borrarTarea } from "./llamarservidor.js";
+import { ObtenerTareas, postTarea, marcarTareas, borrarTarea, buscarTareas} from "./llamarservidor.js";
 const taskInput = document.getElementById("tarea");
+
+import {updateNoTasksMessage} from "./add.js";
 
 
 
@@ -25,34 +27,9 @@ async function crearTareasIniciales() {
 }
 
 
-
-
-
-
-
-
-// var postTareasResultado = await postTarea("Sacar al perro");
-
-// console.log(" POST RESULTADO =", postTareasResultado)
-
-// var misTareas = await ObtenerTareas();
-// console.log(" Mis tareas ", misTareas)
-
-// var resultadoMarcarTarea = await marcarTarea(true, "9864e7a6-8e95-403d-ad15-6ec8acbe305b")
-
-// console.log(resultadoMarcarTarea)
-
-// var resultadoEliminar = await borrarTarea("9864e7a6-8e95-403d-ad15-6ec8acbe305b")
-
-// console.log("Eliminó", resultadoEliminar)
-
-
-
-
 const addButton = document.getElementById("subir");
 const taskList = document.getElementById("taskList");
 const noTasksMessage = document.getElementById("noTasksMessage");
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -66,9 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   taskList.addEventListener("click", function (event) {
-    if (event.target.classList.contains("delete")) {
-      deleteTask(event.target.parentElement);
-    } else if (event.target.classList.contains("checkbox")) {
+    // if (event.target.classList.contains("delete")) {
+    //   deleteTask(event.target.parentElement);
+    if (event.target.classList.contains("checkbox")) {
       completeTask(event.target);
     }
   });
@@ -121,12 +98,26 @@ function addTask(taskText, idTarea, checkTarea) {
     const isTaskDuplicate = existingTasks.some(task => task.textContent.toLowerCase() === taskText);
 
     if (isTaskDuplicate) {
-     // alert("Wiederholte Aufgabe");
+      // alert("Wiederholte Aufgabe");
       return;
     }
 
     const listItem = document.createElement("li");
     const checkbox = document.createElement("input");
+    const color = document.createElement("input");
+
+    color.id="colorC"
+
+    color.setAttribute("type", "color")
+
+     
+
+    color.style.border="none"
+    color.style.width="80px"
+    color.style.height="40px"
+    // color.style.marginLeft="40%"
+
+
     checkbox.type = "checkbox";
     checkbox.id = idTarea
     checkbox.checked = checkTarea;
@@ -134,14 +125,19 @@ function addTask(taskText, idTarea, checkTarea) {
 
     const taskLabel = document.createElement("label");
     taskLabel.textContent = taskText;
-
+    if (checkTarea){
+      contadorTareasRealizadas++;
+      taskLabel.classList.add("completed")
+      document.getElementById("contador").textContent = contadorTareasRealizadas;
+    }
     const deleteButton = document.createElement("span");
-    deleteButton.textContent = " || BORRAR";
+    deleteButton.textContent = " || Löschen";
 
     deleteButton.classList.add("delete");
     deleteButton.addEventListener("click", ()=>{deleteTask (listItem, idTarea)})
     listItem.appendChild(checkbox);
     listItem.appendChild(taskLabel);
+    listItem.appendChild(color);
     listItem.appendChild(deleteButton);
     taskList.appendChild(listItem);
 
@@ -164,10 +160,9 @@ function deleteTask(taskItem,idTarea) {
   const isChecked = checkbox.checked;
 console.log("tareaaa")
 
- taskItem.remove();
+  taskItem.remove();
 
-  //ESTE ID ES QUEMADOSI ME ELIMINA NECESITO ENVIAR EL ID EN FORMA DE VARIABLE
- borrarTarea(idTarea)
+  borrarTarea(idTarea)
  //llamar funcion de eliminar del servidor
 
   if (isChecked) {
@@ -189,18 +184,34 @@ function completeTask(checkbox) {
     taskLabel.classList.remove("completed");
     contadorTareasRealizadas--;
   }
-
+  marcarTareas(checkbox.checked, checkbox.id)
   document.getElementById("contador").textContent = contadorTareasRealizadas;
 }
 
-function updateNoTasksMessage() {
-  if (taskList.children.length === 0) {
-    noTasksMessage.style.display = "block";
-  } else {
-    noTasksMessage.style.display = "none";
+
+
+var buscarBoton = document.getElementById("buscarTareaButton");
+var inputBuscar = document.getElementById("buscarTarea");
+
+buscarBoton.addEventListener("click", async function(evento){
+  evento.preventDefault();
+  taskList.innerHTML = "";
+  contadorTareasRealizadas=0;
+
+  listaTareasGlobal = await buscarTareas(inputBuscar.value)
+
+  console.log("Mi lista al iniciar la aplicación: ", listaTareasGlobal);
+
+  for (let indiceTarea = 0; indiceTarea < listaTareasGlobal.length; indiceTarea++) {
+    const tarea = listaTareasGlobal[indiceTarea];
+    const textoTarea = tarea.task;
+    //crear tarea es la función de cada uno
+
+    console.log(listaTareasGlobal[0].id)
+    addTask(textoTarea, tarea.id, tarea.check)
+  // deleteTask(textoTarea,listaTareasGlobal.id)
   }
-}
 
-
+})
 
 crearTareasIniciales();
