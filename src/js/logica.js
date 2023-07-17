@@ -5,7 +5,7 @@ import {updateNoTasksMessage} from "./add.js";
 
 
 
-/////GET///////
+/////GET///////VER TAREAS
 
 var listaTareasGlobal = [];
 
@@ -70,7 +70,7 @@ async function addTaskEvent(event) {
     console.log("Is this task duplicated", isTaskDuplicate)
     if (isTaskDuplicate) {
       console.log(isTaskDuplicate)
-      //alert("Wiederholte Aufgabe");
+      alert("Wiederholte Aufgabe");
       return;
     }
 console.log("Un texto que identificar")
@@ -88,6 +88,9 @@ console.log("Un texto que identificar")
 
     addTask(taskText, idTarea, checkTarea)
     
+  }else {
+    alert("Text eingeben");
+    return;
   }
 }
 
@@ -110,7 +113,7 @@ function addTask(taskText, idTarea, checkTarea) {
 
     color.setAttribute("type", "color")
 
-     
+
 
     color.style.border="none"
     color.style.width="80px"
@@ -145,9 +148,6 @@ function addTask(taskText, idTarea, checkTarea) {
     taskInput.focus();
 
     noTasksMessage.style.display = "none";
-  } else {
-    //alert("Text eingeben");
-    return;
   }
 
   updateNoTasksMessage();
